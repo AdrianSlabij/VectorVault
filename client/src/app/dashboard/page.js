@@ -8,6 +8,8 @@ import createTodos from "@/api/createTodos";
 import readTodos from "@/api/readTodos";
 import deleteTodos from "@/api/deleteTodos"
 
+import Chat from "@/components/Chat"
+
 import FileForm from "@/components/FileForm";
 
 export default function Dashboard() {
@@ -17,6 +19,23 @@ export default function Dashboard() {
   const [desc, setDesc] = useState("");
   const [todoList, setTodoList] = useState([])
   const [id, setID] = useState()
+  const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    async function getUserData() {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session) {
+        setToken(session.access_token); // the badge we are sending to backend
+        setUserId(session.user.id); //just for logging
+        console.log("My User ID is:", session.user.id);
+      }
+    }
+    getUserData();
+  }, []);
 
   const handleLogout = async () => {
     let { error } = await supabase.auth.signOut();
@@ -93,7 +112,8 @@ export default function Dashboard() {
           <p>No todos found. Click "Read" to fetch them.</p>
         )}
         
-        <FileForm></FileForm>
+        <FileForm token={token}></FileForm>
+        <Chat token={token}></Chat>
       </div>
 
       

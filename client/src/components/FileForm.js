@@ -2,27 +2,10 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 
-export default function FileForm() {
+export default function FileForm({token}) {
   const [files, setFiles] = useState([]);
-
-  const [userId, setUserId] = useState(null);
-  const [token, setToken] = useState(null);
   const supabase = createClient();
 
-  useEffect(() => {
-    async function getUserData() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (session) {
-        setToken(session.access_token); // the badge we are sending to backend
-        setUserId(session.user.id); //just for logging
-        console.log("My User ID is:", session.user.id);
-      }
-    }
-    getUserData();
-  }, []);
 
   const handleFileInputChange = (e) => {
     //console.log(e.target.files)
