@@ -1,0 +1,8 @@
+# Ignore virtual environment directories
+venv/
+
+# Ignore dependencies
+node_modules/
+
+# Ignore sensitive keys (Keep this!)
+.env
