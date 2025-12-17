@@ -7,6 +7,7 @@ from pathlib import Path
 from ingestion import process_and_index_file
 from query_llm import query_llm
 
+# uvicorn main:app --reload   
 
 app = FastAPI()
 
@@ -34,49 +35,49 @@ def read_root():
 #         "your_user_id": user_id
 #     }
 #t
-todos = []
+# todos = []
 
-class TodoItem(BaseModel):
-    id: int = Field(description="ID of the todolist task", gt=0)
-    item: str
-    desc: str | None = None
+# class TodoItem(BaseModel):
+#     id: int = Field(description="ID of the todolist task", gt=0)
+#     item: str
+#     desc: str | None = None
     
 
 
-@app.post("/api/todos")
-def create(todo: TodoItem):
-    todos.append(todo)
-    print(todos)
-    return todo
+# @app.post("/api/todos")
+# def create(todo: TodoItem):
+#     todos.append(todo)
+#     print(todos)
+#     return todo
 
 
-@app.get("/api/todos")
-def readAll(page: Optional[int] = Query(None, description="the page number for paginated view", gt=0)):
-    print(todos)
-    return todos
+# @app.get("/api/todos")
+# def readAll(page: Optional[int] = Query(None, description="the page number for paginated view", gt=0)):
+#     print(todos)
+#     return todos
 
-@app.get("/api/todos/{id}")
-def readTask(id: int = Path(title="The id of the task",gt=-1)):
-    for item in todos:
-        if item.id==id:
-            return item
-    return {"message":"task not found"}
+# @app.get("/api/todos/{id}")
+# def readTask(id: int = Path(title="The id of the task",gt=-1)):
+#     for item in todos:
+#         if item.id==id:
+#             return item
+#     return {"message":"task not found"}
 
-@app.put("/api/todos/{id}")
-def update(id: int, todo: TodoItem):
-    for index, item in enumerate(todos):
-        if item.id == id:
-            todos[index]=todo
-            print(todos)
-            return todo
-    return {"message": "Todo not found"}
+# @app.put("/api/todos/{id}")
+# def update(id: int, todo: TodoItem):
+#     for index, item in enumerate(todos):
+#         if item.id == id:
+#             todos[index]=todo
+#             print(todos)
+#             return todo
+#     return {"message": "Todo not found"}
 
-@app.delete("/api/todos/{id}")
-def delete(id: int):
-    for index, item in enumerate(todos):
-        if item.id == id:
-            todos.pop(index)
-            return {"message": "Todo removed", "todos": todos}
+# @app.delete("/api/todos/{id}")
+# def delete(id: int):
+#     for index, item in enumerate(todos):
+#         if item.id == id:
+#             todos.pop(index)
+#             return {"message": "Todo removed", "todos": todos}
 
 
 
