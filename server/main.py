@@ -112,5 +112,27 @@ async def ingest_file(background_tasks: BackgroundTasks, file_uploads: list[Uplo
     
     return {"filenames": [f.filename for f in file_uploads]}
 
-    
+import os
+from supabase import create_client, Client
+SUPABASE_URL = os.getenv("SUPABASE_URL") 
+SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+
+@app.get("/files")
+def getAllFiles(current_user_id: str = Depends(get_current_user)):
+    response = supabase.table("files").select("*").eq("user_id", current_user_id).execute()
+    return response.data
+
+@app.delete("/files/{file_id}")
+async def delete_file(file_id: str, user_id: str = Depends(get_current_user)):
+    response = supabase.table("files").delete()\
+        .eq("id", file_id)\
+        .eq("user_id", user_id)\
+        .execute()
+        
+    if len(response.data) == 0:
+        return {"error": "File not found or access denied"}
+        
+    return {"message": "File and all associated vector chunks deleted successfully"}
+
     
