@@ -1,7 +1,7 @@
 "use client";
 
 import { createClient } from "@/utils/supabase/client";
-import { Button } from "@/components/ui/button"; // assuming you have Shadcn
+import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
   const supabase = createClient();

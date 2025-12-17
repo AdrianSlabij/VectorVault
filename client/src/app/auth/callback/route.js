@@ -6,7 +6,7 @@ export async function GET(request) {
   const { searchParams, origin } = new URL(request.url)
   //Grab the code from Supabase
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/dashboard'
+  const next = searchParams.get('next') ?? '/chat'
 
   if (code) {
     const supabase = await createClient()
