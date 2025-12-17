@@ -22,7 +22,7 @@ export default function Header({ session }) {
     <header className="border-b p-4 flex justify-between items-center bg-white">
       <div className="flex gap-2 items-center">
         <Button asChild variant="ghost" className="font-bold text-lg">
-          <Link href="/chat" className="flex items-center gap-2">
+          <Link href="/home" className="flex items-center gap-2">
             <House className="w-5 h-5" />
             <span>Home</span>
           </Link>

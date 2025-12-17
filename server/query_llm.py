@@ -55,7 +55,7 @@ def query_llm(message: str, user_id):
 
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash-lite",
-        temperature=1.0,
+        temperature=0.5,
         max_tokens=None,
         timeout=None,
         max_retries=2,

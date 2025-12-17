@@ -43,8 +43,9 @@ def process_and_index_file(file_path: str, user_id: str):
         print(f"--- 2. Loading file: {file_path} ---")
         if file_path.endswith(".pdf"):
             loader = PyPDFLoader(file_path)
-        else:
-            loader = TextLoader(file_path)
+        elif file_path.endswith(".txt"):
+            # Text files often need explicit encoding handling
+            loader = TextLoader(file_path, encoding="utf-8")
             
         raw_documents = loader.load()
         print(f"Loaded {len(raw_documents)} pages/documents.")

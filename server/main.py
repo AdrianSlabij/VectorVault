@@ -24,78 +24,30 @@ app.add_middleware(
 def read_root():
     return {"status": "FastAPI is running", "message": "Ready for RAG!"}
 
-# @app.get("/api/health")
-# def health_check():
-#     return {"status": "ok"}
-
-# @app.post("/api/test-auth")
-# async def test_auth(user_id: str = Depends(verify_user)):
-#     return {
-#         "message": "Success! You are authorized.",
-#         "your_user_id": user_id
-#     }
-#t
-# todos = []
-
-# class TodoItem(BaseModel):
-#     id: int = Field(description="ID of the todolist task", gt=0)
-#     item: str
-#     desc: str | None = None
-    
-
-
-# @app.post("/api/todos")
-# def create(todo: TodoItem):
-#     todos.append(todo)
-#     print(todos)
-#     return todo
-
-
-# @app.get("/api/todos")
-# def readAll(page: Optional[int] = Query(None, description="the page number for paginated view", gt=0)):
-#     print(todos)
-#     return todos
-
-# @app.get("/api/todos/{id}")
-# def readTask(id: int = Path(title="The id of the task",gt=-1)):
-#     for item in todos:
-#         if item.id==id:
-#             return item
-#     return {"message":"task not found"}
-
-# @app.put("/api/todos/{id}")
-# def update(id: int, todo: TodoItem):
-#     for index, item in enumerate(todos):
-#         if item.id == id:
-#             todos[index]=todo
-#             print(todos)
-#             return todo
-#     return {"message": "Todo not found"}
-
-# @app.delete("/api/todos/{id}")
-# def delete(id: int):
-#     for index, item in enumerate(todos):
-#         if item.id == id:
-#             todos.pop(index)
-#             return {"message": "Todo removed", "todos": todos}
-
-
-
-# ----- CRUD END -------
-# ----- RAG Begin -------
-
 class ChatRequest(BaseModel):
     query: str
 
-class llm_QuestionResponse(BaseModel):
-    relevant_document: str
-    answer: str
-
 @app.post("/ask")
 def chat(message: ChatRequest, current_user_id: str = Depends(get_current_user)):
+    
     user_message = message.query
+    #Save User Message
+    supabase.table("chat_messages").insert({
+        "user_id": current_user_id,
+        "role": "user",
+        "content": user_message
+    }).execute()
+
     ai_response = query_llm(user_message, current_user_id)
     print(ai_response)
+
+    #Save AI Message
+    supabase.table("chat_messages").insert({
+        "user_id": current_user_id,
+        "role": "assistant",
+        "content": ai_response
+    }).execute()
+
     return {"response": ai_response}
 
 
@@ -135,4 +87,14 @@ async def delete_file(file_id: str, user_id: str = Depends(get_current_user)):
         
     return {"message": "File and all associated vector chunks deleted successfully"}
 
-    
+
+@app.get("/history")
+async def get_history(user_id: str = Depends(get_current_user)):
+    # Fetch latest 5 messages, oldest first (so they read top->bottom)
+    response = supabase.table("chat_messages")\
+        .select("*")\
+        .eq("user_id", user_id)\
+        .order("created_at", desc=False)\
+        .limit(5)\
+        .execute()
+    return response.data
