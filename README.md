@@ -1,5 +1,7 @@
 ﻿# Vector Vault
 
+ 🔗 **Live Site:** [vectorvault.vercel.app](https://vectorvault.vercel.app/)
+
 **Vector Vault** is a full-stack Retrieval-Augmented Generation (RAG) platform that enables users to upload private documents (PDFs, text files) and engage in context-aware conversations with them.
 
 Built to bridge the gap between static documents and dynamic intelligence, this project leverages a high-performance Python backend for vector processing and a responsive Next.js frontend for a seamless user experience.
@@ -25,6 +27,7 @@ Built to bridge the gap between static documents and dynamic intelligence, this 
 * **Database:** Supabase (PostgreSQL + pgvector)
 
 * **LLM/Embeddings:** Google Gemini Models
+
 
 
 
