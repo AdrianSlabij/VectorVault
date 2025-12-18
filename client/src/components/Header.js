@@ -44,7 +44,7 @@ export default function Header({ user }) {
       </div>
 
       <div className="flex gap-4 items-center">
-        <span className="text-sm text-gray-500">
+        <span className="hidden md:inline text-sm text-gray-500">
           Hey, {user?.email}!
         </span>
         <Button onClick={handleLogout}>Logout</Button>
