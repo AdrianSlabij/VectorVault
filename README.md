@@ -25,8 +25,12 @@ Built to bridge the gap between static documents and dynamic intelligence, this 
 * **API:** Python FastAPI
 * **Orchestration:** LangChain
 * **Database:** Supabase (PostgreSQL + pgvector)
-
 * **LLM/Embeddings:** Google Gemini Models
+
+### Infrastructure & Deployment
+* **Frontend:** Deployed on **Vercel**
+* **Backend:** Containerized service hosted on **Render**
+
 
 
 
