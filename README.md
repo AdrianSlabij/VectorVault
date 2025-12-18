@@ -4,7 +4,7 @@
 
 Built to bridge the gap between static documents and dynamic intelligence, this project leverages a high-performance Python backend for vector processing and a responsive Next.js frontend for a seamless user experience.
 
-<img src="[https://github.com/user-attachments/assets/eb2c31f5-aa83-4204-9dee-9159b3bec730]" alt="Vector Vault Dashboard" width="100%">
+<img src="https://github.com/user-attachments/assets/eb2c31f5-aa83-4204-9dee-9159b3bec730" alt="Vector Vault Dashboard" width="100%">
 
 ## Key Features
 
@@ -25,3 +25,4 @@ Built to bridge the gap between static documents and dynamic intelligence, this 
 * **Database:** Supabase (PostgreSQL + pgvector)
 
 * **LLM/Embeddings:** Google Gemini Models
+
