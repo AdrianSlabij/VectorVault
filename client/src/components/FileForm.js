@@ -149,10 +149,12 @@ export default function FileForm({ token }) {
         body: formData,
       });
 
+      console.log(res);
+
       if (res.ok) {
         setStatus({ type: "success", message: "Upload successful!" });
         handleClearAll();
-        setTimeout(() => fetchFiles(), 1000); // Refresh list after a delay to see new file(s) added
+        setTimeout(() => fetchFiles(), 1000); //refresh list after a delay to see new file(s) added
       } else {
         setStatus({ type: "error", message: "Upload failed." });
       }
@@ -171,15 +173,19 @@ export default function FileForm({ token }) {
           Knowledge Base
         </CardTitle>
         <CardDescription>
-          Upload PDFs, or TXT documents to expand your AI's context window.
+          Upload <strong>selectable text PDFs</strong> or <strong>TXT</strong> files to expand
+          your AI's context window.
+          <br />
+          <span className="text-xs text-muted-foreground/70">
+            (Scanned images or photos of documents are not currently supported)
+          </span>
         </CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-6">
         {/* --- UPLOAD FORM --- */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          
-          {/* DRAG AND DROP AREA */}
+          {/* drag and drop area */}
           <div
             className={`
               relative border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200
@@ -202,7 +208,7 @@ export default function FileForm({ token }) {
               id="file_upload"
               type="file"
               multiple
-              className="hidden" 
+              className="hidden"
               onChange={handleFileInputChange}
               disabled={uploading}
               accept=".pdf,.txt"
@@ -214,7 +220,9 @@ export default function FileForm({ token }) {
 
             <div className="space-y-1">
               <p className="text-sm font-medium">
-                {isDragging ? "Drop files here" : "Click to browse or drag files here"}
+                {isDragging
+                  ? "Drop files here"
+                  : "Click to browse or drag files here"}
               </p>
               <p className="text-xs text-muted-foreground">
                 Supported formats: PDF, TXT
@@ -372,9 +380,10 @@ export default function FileForm({ token }) {
                             <AlertDialogHeader>
                               <AlertDialogTitle>Delete File?</AlertDialogTitle>
                               <AlertDialogDescription>
-                                This will permanently delete <b>{file.filename}</b>{" "}
-                                and remove all associated knowledge chunks from the
-                                database. This action cannot be undone.
+                                This will permanently delete{" "}
+                                <b>{file.filename}</b> and remove all associated
+                                knowledge chunks from the database. This action
+                                cannot be undone.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>

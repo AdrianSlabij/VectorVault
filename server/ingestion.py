@@ -1,5 +1,5 @@
 import os
-from langchain_community.document_loaders import PyPDFLoader, TextLoader
+from langchain_community.document_loaders import PyMuPDFLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from norm_embeddings import NormalizedGoogleEmbeddings
 from supabase import create_client, Client
@@ -51,13 +51,21 @@ def process_and_index_file(file_path: str, user_id: str):
 
         print(f"--- 2. Loading file: {file_path} ---")
         if file_path.endswith(".pdf"):
-            loader = PyPDFLoader(file_path)
+            loader = PyMuPDFLoader(file_path)
         elif file_path.endswith(".txt") or file_path.endswith(".md"):
             loader = TextLoader(file_path, encoding="utf-8")
         else:
             raise ValueError(f"Unsupported file type: {file_path}")
             
         raw_documents = loader.load()
+        total_text_length = sum(len(doc.page_content) for doc in raw_documents)
+        
+        #check if a multiple page document has less than 50 characters of text
+        if len(raw_documents) > 0 and total_text_length < 50:
+            raise ValueError(
+                "This PDF appears to be a scanned image. "
+                "Please upload a PDF with selectable text."
+            )
         print(f"Loaded {len(raw_documents)} pages/documents.")
 
         print(f"--- 3. Splitting text ---")

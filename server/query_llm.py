@@ -39,6 +39,7 @@ def retrieve_docs(query: str, current_user_id: str) -> str:
             page = doc['metadata'].get('page', 0) + 1
             source = doc['metadata'].get('source', 'Unknown')
             content = doc['content']
+            chunk_id = doc.get('id', 0)
             
             #build Context String for LLM
             context_text += f"--- Source: {source} (Page {page}) ---\n{content}\n\n"
@@ -47,8 +48,10 @@ def retrieve_docs(query: str, current_user_id: str) -> str:
             source_key = f"{source}-{page}"
             if source_key not in seen_sources:
                 sources_list.append({
+                    "id": chunk_id,
                     "source": source,
-                    "page": page
+                    "page": page,
+                    "content": content
                 })
                 seen_sources.add(source_key)
 
