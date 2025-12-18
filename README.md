@@ -8,10 +8,10 @@ Built to bridge the gap between static documents and dynamic intelligence, this 
 
 ## Key Features
 
-* ** Document Ingestion Pipeline:** Custom ETL pipeline using **LangChain** to parse, clean, and chunk PDF/Text documents. Includes robust error handling for sanitizing complex file encodings (e.g., removing null bytes).
-* ** Semantic Search:** Uses **Google Gemini** embeddings and **Supabase (pgvector)** to perform high-accuracy cosine similarity searches, retrieving only the most relevant context for every query.
-* ** Interactive Chat Interface:** Real-time chat UI built with **React & Shadcn/UI**, featuring optimistic UI updates, source citation (page numbers/filenames), and persistent chat history.
-* ** Secure Infrastructure:** Implements **Row Level Security (RLS)** via Supabase Auth. Includes middleware protection and secure server-side session validation to ensure data privacy.
+* **Document Ingestion Pipeline:** Custom ETL pipeline using **LangChain** to parse, clean, and chunk PDF/Text documents. Includes robust error handling for sanitizing complex file encodings (e.g., removing null bytes).
+* **Semantic Search:** Uses **Google Gemini** embeddings and **Supabase (pgvector)** to perform high-accuracy cosine similarity searches, retrieving only the most relevant context for every query.
+* **Interactive Chat Interface:** Real-time chat UI built with **React & Shadcn/UI**, featuring optimistic UI updates, source citation (page numbers/filenames), and persistent chat history.
+* **Secure Infrastructure:** Implements **Row Level Security (RLS)** via Supabase Auth. Includes middleware protection and secure server-side session validation to ensure data privacy.
 
 ## 🛠️ Tech Stack
 
@@ -25,4 +25,5 @@ Built to bridge the gap between static documents and dynamic intelligence, this 
 * **Database:** Supabase (PostgreSQL + pgvector)
 
 * **LLM/Embeddings:** Google Gemini Models
+
 
