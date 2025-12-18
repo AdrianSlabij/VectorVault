@@ -38,13 +38,13 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export default function FileForm({ token }) {
-  // State for PENDING uploads
+  //state for PENDING uploads
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [status, setStatus] = useState(null);
-  const [isDragging, setIsDragging] = useState(false); // Visual cue for drag over
+  const [isDragging, setIsDragging] = useState(false); //visual cue for drag over
 
-  // State for SERVER files
+  //state for SERVER files
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [loadingFiles, setLoadingFiles] = useState(true);
 
@@ -263,7 +263,7 @@ export default function FileForm({ token }) {
                       size="icon"
                       className="h-4 w-4 rounded-full hover:bg-destructive hover:text-destructive-foreground p-0"
                       onClick={(e) => {
-                        e.stopPropagation(); // Prevent triggering the form submit
+                        e.stopPropagation(); //prevent triggering the form submit
                         removeSelectedFile(idx);
                       }}
                       disabled={uploading}

@@ -86,7 +86,7 @@ def process_and_index_file(file_path: str, user_id: str):
             #Clean the main text content (to avoid storing null bytes in postgres)
             clean_content = sanitize_text(d.page_content)
             
-            #Clean the metadata values (Source, Title, etc.)
+            #Clean the metadata values (Source, Title, etc....)
             clean_metadata = {}
             for key, value in d.metadata.items():
                 clean_metadata[key] = sanitize_text(value)
@@ -107,7 +107,7 @@ def process_and_index_file(file_path: str, user_id: str):
                 "embedding": vector,
                 "metadata": metadata, 
                 "user_id": user_id,
-                "file_id": file_id     # Links chunk to the parent file record
+                "file_id": file_id #links chunk to the parent file record
             })
 
         print(f"--- 5. Inserting Chunks to Supabase ---")
@@ -125,7 +125,7 @@ def process_and_index_file(file_path: str, user_id: str):
             supabase.table("files").delete().eq("id", file_id).execute()
         
     finally:
-        #cleanup: Remove the temporary file from the local system
+        #cleanup: remove the temporary file from the local system
         if os.path.exists(file_path):
             os.remove(file_path)
             print("Temp file removed.")

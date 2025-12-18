@@ -32,14 +32,14 @@ export default function Chat({ token }) {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   
-  // NEW: Loading state to prevent the "flash"
+//loading state to prevent wrong ui "flash"
   const [isLoadingFiles, setIsLoadingFiles] = useState(true);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [activeSource, setActiveSource] = useState(null);
 
   const messagesEndRef = useRef(null);
 
-  // 1. Fetch Files (And handle loading state)
+  //Fetch Files (And handle loading state)
   useEffect(() => {
     const fetchFiles = async () => {
       if (!token) return;
@@ -55,7 +55,7 @@ export default function Chat({ token }) {
       } catch (err) {
         console.error("Failed to fetch files", err);
       } finally {
-        // Stop loading once we know if files exist or not
+        //stop loading once we know if files exist or not
         setIsLoadingFiles(false);
       }
     };
@@ -63,7 +63,7 @@ export default function Chat({ token }) {
     fetchFiles();
   }, [token]);
 
-  // 2. Load History
+  //load chat history
   useEffect(() => {
     const loadHistory = async () => {
       if (!token) return;
@@ -130,13 +130,13 @@ export default function Chat({ token }) {
         <CardContent className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
           
           {/* LOGIC: 
-              1. If No Files -> Show "Knowledge Base Empty" (Blocks history)
-              2. If Files Exist but No History -> Show "Ask a Question" 
-              3. If Files & History Exist -> Show Messages
+              case a: If No Files -> Show "Knowledge Base Empty" (Blocks history)
+              case b: If Files Exist but No History -> Show "Ask a Question" 
+              case c: If Files & History Exist -> Show Messages
           */}
           
           {!hasFiles ? (
-             // --- SCENARIO A: NO FILES (Block everything else) ---
+             // case a: no files (block everything) ---
             <div className="flex flex-col items-center justify-center h-full text-center p-6">
               <div className="flex flex-col items-center max-w-sm">
                 <div className="bg-orange-100 p-4 rounded-full mb-4">
@@ -152,7 +152,7 @@ export default function Chat({ token }) {
               </div>
             </div>
           ) : messages.length === 0 ? (
-            // --- SCENARIO B: FILES EXIST, BUT NO MESSAGES ---
+            // case b: files exist, but no messages ---
             <div className="flex flex-col items-center justify-center h-full text-center p-6">
               <div className="flex flex-col items-center">
                 <MessageSquare className="w-12 h-12 mb-4 text-slate-300" />
@@ -162,7 +162,7 @@ export default function Chat({ token }) {
               </div>
             </div>
           ) : (
-            // --- SCENARIO C: ACTIVE CHAT ---
+            // case c: active chat ---
             messages.map((msg, index) => (
               <div
                 key={index}
