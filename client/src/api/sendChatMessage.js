@@ -1,8 +1,8 @@
-const API_URL = "http://localhost:8000";
+import { API_BASE_URL } from "@/utils/config";
 
 export async function sendChatMessage(token, message) {
   try {
-    const res = await fetch(`${API_URL}/ask`, {
+    const res = await fetch(`${API_BASE_URL}/ask`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

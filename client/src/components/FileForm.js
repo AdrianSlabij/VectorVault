@@ -36,6 +36,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { API_BASE_URL } from "@/utils/config";
 
 export default function FileForm({ token }) {
   //state for PENDING uploads
@@ -58,7 +59,7 @@ export default function FileForm({ token }) {
   const fetchFiles = async () => {
     if (!token) return;
     try {
-      const res = await fetch("http://localhost:8000/files", {
+      const res = await fetch(`${API_BASE_URL}/files`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -113,7 +114,7 @@ export default function FileForm({ token }) {
 
   const handleDelete = async (fileId) => {
     try {
-      const res = await fetch(`http://localhost:8000/files/${fileId}`, {
+      const res = await fetch(`${API_BASE_URL}/files/${fileId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -143,7 +144,7 @@ export default function FileForm({ token }) {
     selectedFiles.forEach((file) => formData.append("file_uploads", file));
 
     try {
-      const res = await fetch("http://localhost:8000/ingestfile", {
+      const res = await fetch(`${API_BASE_URL}/ingestfile`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

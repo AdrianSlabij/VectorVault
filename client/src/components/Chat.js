@@ -26,6 +26,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { fetchChatHistory } from "@/api/getChatHistory";
 import { sendChatMessage } from "@/api/sendChatMessage";
+import { API_BASE_URL } from "@/utils/config";
 
 export default function Chat({ token }) {
   const [messages, setMessages] = useState([]);
@@ -44,7 +45,7 @@ export default function Chat({ token }) {
     const fetchFiles = async () => {
       if (!token) return;
       try {
-        const res = await fetch("http://localhost:8000/files", {
+        const res = await fetch(`${API_BASE_URL}/files`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

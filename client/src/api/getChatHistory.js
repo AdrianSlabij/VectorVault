@@ -1,10 +1,10 @@
-const API_URL = "http://localhost:8000";
+import { API_BASE_URL } from "@/utils/config";
 
 export async function fetchChatHistory(token) {
   if (!token) return [];
 
   try {
-    const res = await fetch(`${API_URL}/history`, {
+    const res = await fetch(`${API_BASE_URL}/history`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

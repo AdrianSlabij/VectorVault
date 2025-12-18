@@ -11,7 +11,12 @@ from query_llm import query_llm
 
 app = FastAPI()
 
-# Configure CORS (Critical for React to talk to Python)
+# Configure CORS
+origins = [
+    "http://localhost:3000",         
+    "https://vectorvault.vercel.app",    
+]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # Allows Next.js to connect
