@@ -2,7 +2,7 @@
 
  
 
-**Vector Vault** is a full-stack Retrieval-Augmented Generation (RAG) platform that enables users to upload private documents (PDFs, text files) and engage in context-aware conversations with them.
+**Vector Vault** is a full-stack Retrieval-Augmented Generation (RAG) platform that enables users to upload private documents (PDFs, text files) and engage in context-aware conversations with them, securely.
 
 **Live Site:** [vectorvault.vercel.app](https://vectorvault.vercel.app/)
 
@@ -32,6 +32,7 @@ Built to bridge the gap between static documents and dynamic intelligence, this 
 ### Infrastructure & Deployment
 * **Frontend:** Deployed on **Vercel**
 * **Backend:** Containerized service hosted on **Render**
+
 
 
 
