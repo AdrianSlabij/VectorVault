@@ -33,8 +33,12 @@ export default function LoginPage() {
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-900 dark:bg-zinc-50">
             <Database className="h-6 w-6 text-white dark:text-black" />
           </div>
-          <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
-          <CardDescription>Sign in to access your Vector Vault</CardDescription>
+          <CardTitle className="text-2xl font-bold">
+            Welcome to Vector Vault
+          </CardTitle>
+          <CardDescription>
+            Log in or create an account to get started.
+          </CardDescription>
         </CardHeader>
 
         {/* --- Main Content --- */}

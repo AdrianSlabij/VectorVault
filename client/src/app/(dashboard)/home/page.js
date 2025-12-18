@@ -36,7 +36,7 @@ export default function HomePage() {
                 </div>
                 <CardTitle className="text-xl">Upload Documents</CardTitle>
                 <CardDescription>
-                  Manage your knowledge base. Upload PDFs, TXT, or CSV files to be indexed.
+                  Manage your knowledge base. Upload PDFs or TXT files to be indexed.
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex justify-end pt-0">
