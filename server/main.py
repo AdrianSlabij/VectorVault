@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Path, Query, UploadFile, Depends, BackgroundTasks
+from fastapi import FastAPI, Path, Query, UploadFile, Depends, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from auth import get_current_user
 from pydantic import BaseModel, Field
@@ -46,9 +46,11 @@ def chat(message: ChatRequest, current_user_id: str = Depends(get_current_user))
     supabase.table("chat_messages").insert({
         "user_id": current_user_id,
         "role": "assistant",
-        "content": ai_text ,
+        "content": ai_text,
         "sources": ai_sources
     }).execute()
+
+    print(result)
 
     return {
         "response": ai_text,
@@ -60,14 +62,23 @@ UPLOAD_DIR = Path() / 'uploads'
 # Takes the file from frontend, saves it temporarily, parses it, chunks, embeds & indexes into vector db
 @app.post("/ingestfile")
 async def ingest_file(background_tasks: BackgroundTasks, file_uploads: list[UploadFile], current_user_id: str = Depends(get_current_user)):
-    for file_upload in file_uploads:
-        data = await file_upload.read()
-        save_to = UPLOAD_DIR / file_upload.filename
-        with open(save_to, 'wb') as f:
-            f.write(data)
-        background_tasks.add_task(process_and_index_file, str(save_to), current_user_id)
-    
-    return {"filenames": [f.filename for f in file_uploads]}
+    try:
+        for file_upload in file_uploads:
+            data = await file_upload.read()
+            save_to = UPLOAD_DIR / file_upload.filename
+            with open(save_to, 'wb') as f:
+                f.write(data)
+            background_tasks.add_task(process_and_index_file, str(save_to), current_user_id)
+        
+        return {"filenames": [f.filename for f in file_uploads]}
+    except Exception as e:
+        #if fails return a 500 error to the UI
+        print(f"Ingestion failed: {e}")
+        #clean up the file if it exists and failed halfway
+        if 'save_to' in locals() and os.path.exists(save_to):
+            os.remove(save_to)
+            
+        raise HTTPException(status_code=500, detail=str(e))
 
 import os
 from supabase import create_client, Client
