@@ -149,7 +149,7 @@ export default function FileForm({ token }) {
         body: formData,
       });
 
-      console.log(res);
+      //console.log(res);
 
       if (res.ok) {
         setStatus({ type: "success", message: "Upload successful!" });

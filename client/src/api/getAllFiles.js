@@ -10,13 +10,13 @@ export default async function getAllFiles(token) {
         })
 
         if (!res.ok) {
-            console.log("Error fetching files:", res.status)
+            //console.log("Error fetching files:", res.status)
             return [] // Return empty list on failure
         }
 
         // 4. Fixed double json() call
         const data = await res.json()
-        console.log("getAllFiles response:", data)
+        //console.log("getAllFiles response:", data)
         return data
 
     } catch (e) {

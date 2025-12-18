@@ -50,7 +50,7 @@ def chat(message: ChatRequest, current_user_id: str = Depends(get_current_user))
         "sources": ai_sources
     }).execute()
 
-    print(result)
+    #print(result)
 
     return {
         "response": ai_text,
