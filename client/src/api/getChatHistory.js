@@ -18,6 +18,7 @@ export async function fetchChatHistory(token) {
     }
 
     const data = await res.json();
+    console.log("Fetched chat history:", data);
     return data;
   } catch (error) {
     console.error("Network error fetching history:", error);

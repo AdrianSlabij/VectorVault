@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { House, FileText, MessageSquare } from "lucide-react";
 
-export default function Header({ session }) {
+export default function Header({ user }) {
   const supabase = createClient();
   const router = useRouter();
 
@@ -15,7 +15,7 @@ export default function Header({ session }) {
     if (error) {
       console.error(error);
     }
-    router.push("/sign-in");
+    router.push("/");
   };
 
   return (
@@ -45,7 +45,7 @@ export default function Header({ session }) {
 
       <div className="flex gap-4 items-center">
         <span className="text-sm text-gray-500">
-          Hey, {session?.user?.email}!
+          Hey, {user?.email}!
         </span>
         <Button onClick={handleLogout}>Logout</Button>
       </div>

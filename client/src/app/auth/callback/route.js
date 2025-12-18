@@ -4,9 +4,8 @@ import { NextResponse } from 'next/server'
 export async function GET(request) {
   console.log('Auth callback invoked')
   const { searchParams, origin } = new URL(request.url)
-  //Grab the code from Supabase
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/chat'
+  const next = searchParams.get('next') ?? '/home'
 
   if (code) {
     const supabase = await createClient()
@@ -16,6 +15,5 @@ export async function GET(request) {
     }
   }
 
-  // Return the user to an error page with instructions
   return NextResponse.redirect(`${origin}/auth/auth-code-error`)
 }
