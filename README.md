@@ -16,7 +16,7 @@ Built to bridge the gap between static documents and dynamic intelligence, this 
 ## 🛠️ Tech Stack
 
 ### Frontend
-* **Framework:** Next.js 14 (App Router)
+* **Framework:** Next.js 16 (App Router)
 * **Styling:** Tailwind CSS + Shadcn/UI
 
 ### Backend & AI
@@ -25,5 +25,6 @@ Built to bridge the gap between static documents and dynamic intelligence, this 
 * **Database:** Supabase (PostgreSQL + pgvector)
 
 * **LLM/Embeddings:** Google Gemini Models
+
 
 
