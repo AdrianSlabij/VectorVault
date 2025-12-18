@@ -38,17 +38,22 @@ def chat(message: ChatRequest, current_user_id: str = Depends(get_current_user))
         "content": user_message
     }).execute()
 
-    ai_response = query_llm(user_message, current_user_id)
-    print(ai_response)
+    result = query_llm(user_message, current_user_id)
+    
+    ai_text = result["answer"]
+    ai_sources = result["sources"]
 
-    #Save AI Message
     supabase.table("chat_messages").insert({
         "user_id": current_user_id,
         "role": "assistant",
-        "content": ai_response
+        "content": ai_text ,
+        "sources": ai_sources
     }).execute()
 
-    return {"response": ai_response}
+    return {
+        "response": ai_text,
+        "sources": ai_sources 
+    }
 
 
 UPLOAD_DIR = Path() / 'uploads'
@@ -90,11 +95,11 @@ async def delete_file(file_id: str, user_id: str = Depends(get_current_user)):
 
 @app.get("/history")
 async def get_history(user_id: str = Depends(get_current_user)):
-    # Fetch latest 5 messages, oldest first (so they read top->bottom)
     response = supabase.table("chat_messages")\
         .select("*")\
         .eq("user_id", user_id)\
-        .order("created_at", desc=False)\
-        .limit(5)\
+        .order("created_at", desc=True)\
+        .limit(20)\
         .execute()
-    return response.data
+    #db returned [Newest ... Oldest]. Reverse to [Oldest ... Newest] for chat display.
+    return response.data[::-1]

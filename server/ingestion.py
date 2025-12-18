@@ -1,34 +1,43 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
-from supabase import create_client, Client
 from norm_embeddings import NormalizedGoogleEmbeddings
+from supabase import create_client, Client
 
 SUPABASE_URL = os.getenv("SUPABASE_URL") 
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
-
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
 if not os.getenv("GEMINI_API_KEY"):
     print("no gemini key")
 
-embeddings = NormalizedGoogleEmbeddings(model="models/gemini-embedding-001",google_api_key=os.getenv("GEMINI_API_KEY"))
+embeddings = NormalizedGoogleEmbeddings(
+    model="models/gemini-embedding-001",
+    google_api_key=os.getenv("GEMINI_API_KEY")
+)
 
-
+def sanitize_text(text):
+    """
+    Removes Null Bytes (\x00) which cause PostgreSQL to crash.
+    """
+    if isinstance(text, str):
+        return text.replace("\x00", "")
+    return text
 
 def process_and_index_file(file_path: str, user_id: str):
     """
-    Loads a file, registers it in the 'files' table, splits it, embeds it, 
-    and inserts chunks linked to the file ID into Supabase.
+    1. Registers the file in the 'files' table.
+    2. Loads, splits, and embeds the content.
+    3. Inserts chunks linked to both user_id and file_id.
+    4. Performs a rollback (deletes file record) if chunking fails.
     """
-    file_id = None # Initialize for error handling scope
+    file_id = None
 
     try:
         filename = os.path.basename(file_path)
         print(f"--- 1. Registering File: {filename} ---")
         
-        # 1. Insert into parent 'files' table FIRST
+        #Insert into parent 'files' table FIRST to generate a file_id
         file_response = supabase.table("files").insert({
             "user_id": user_id,
             "filename": filename
@@ -43,9 +52,10 @@ def process_and_index_file(file_path: str, user_id: str):
         print(f"--- 2. Loading file: {file_path} ---")
         if file_path.endswith(".pdf"):
             loader = PyPDFLoader(file_path)
-        elif file_path.endswith(".txt"):
-            # Text files often need explicit encoding handling
+        elif file_path.endswith(".txt") or file_path.endswith(".md"):
             loader = TextLoader(file_path, encoding="utf-8")
+        else:
+            raise ValueError(f"Unsupported file type: {file_path}")
             
         raw_documents = loader.load()
         print(f"Loaded {len(raw_documents)} pages/documents.")
@@ -61,25 +71,39 @@ def process_and_index_file(file_path: str, user_id: str):
 
         print(f"--- 4. Embedding and Formatting ---")
         
-        texts = [d.page_content for d in docs]
+        texts = []
+        metadatas = []
+        
+        for d in docs:
+            #Clean the main text content (to avoid storing null bytes in postgres)
+            clean_content = sanitize_text(d.page_content)
+            
+            #Clean the metadata values (Source, Title, etc.)
+            clean_metadata = {}
+            for key, value in d.metadata.items():
+                clean_metadata[key] = sanitize_text(value)
+            
+            clean_metadata["source"] = filename
+            clean_metadata["page"] = clean_metadata.get("page", 0)
+            
+            texts.append(clean_content)
+            metadatas.append(clean_metadata)
+
         vectors = embeddings.embed_documents(texts)
         
         rows_to_insert = []
-        for doc, vector in zip(docs, vectors):
+        
+        for text, metadata, vector in zip(texts, metadatas, vectors):
             rows_to_insert.append({
-                "content": doc.page_content,
+                "content": text, 
                 "embedding": vector,
-                "metadata": {
-                    "source": filename,
-                    "page": doc.metadata.get("page", 0)
-                },
+                "metadata": metadata, 
                 "user_id": user_id,
-                "file_id": file_id  # <--- CRITICAL: Link chunk to parent file
+                "file_id": file_id     # Links chunk to the parent file record
             })
 
         print(f"--- 5. Inserting Chunks to Supabase ---")
         
-        # Batch insert is safer for large files, but direct is fine for small ones
         response = supabase.table("document_chunks").insert(rows_to_insert).execute()
         
         print(f"Successfully indexed {len(rows_to_insert)} chunks for file {file_id}")
@@ -87,68 +111,13 @@ def process_and_index_file(file_path: str, user_id: str):
     except Exception as e:
         print(f"Error processing file: {e}")
         
-        # Rollback: If chunking fails, delete the 'ghost' file record
+        #if chunking fails, delete the file record so the DB stays clean
         if file_id:
             print(f"Rolling back: Deleting file record {file_id}")
             supabase.table("files").delete().eq("id", file_id).execute()
         
     finally:
-        if os.path.exists(file_path):
-            os.remove(file_path)
-            print("Temp file removed.")
-    """
-    Loads a file, splits it, embeds it, and manually inserts rows into Supabase
-    """
-    try:
-        print(f"--- 1. Loading file: {file_path} ---")
-        if file_path.endswith(".pdf"):
-            loader = PyPDFLoader(file_path) #supports only upload of pdf
-        else:
-            loader = TextLoader(file_path) #textloader not working
-            
-        raw_documents = loader.load()
-        print(f"Loaded {len(raw_documents)} pages/documents.")
-
-        print(f"--- 2. Splitting text ---")
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
-            chunk_overlap=250,
-            separators=["\n\n", "\n", " ", ""]
-        )
-        docs = text_splitter.split_documents(raw_documents)
-        print(f"Split into {len(docs)} chunks.")
-
-        print(f"--- 3. Embedding and Formatting ---")
-        
-        # Convert text to vectors manually so that we can store in DB with a user_id attached
-        texts = [d.page_content for d in docs]
-        vectors = embeddings.embed_documents(texts)
-        
-        # build the data structure the table expects
-        rows_to_insert = []
-        for doc, vector in zip(docs, vectors):
-            rows_to_insert.append({
-                "content": doc.page_content,
-                "embedding": vector,
-                "metadata": {
-                    "source": os.path.basename(file_path),
-                    "page": doc.metadata.get("page", 0)
-                },
-                "user_id": user_id  
-            })
-
-        print(f"--- 4. Inserting to Supabase ---")
-        
-        #insert into db. Could consider batching
-        response = supabase.table("document_chunks").insert(rows_to_insert).execute()
-        
-        print(f"Successfully indexed {len(rows_to_insert)} chunks for user {user_id}")
-        
-    except Exception as e:
-        print(f"Error processing file: {e}")
-        
-    finally:
-        # Remove the temporary file regardless of success/failure
+        #cleanup: Remove the temporary file from the local system
         if os.path.exists(file_path):
             os.remove(file_path)
             print("Temp file removed.")
