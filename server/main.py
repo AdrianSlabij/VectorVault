@@ -20,7 +20,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Allows Next.js to connect
+    allow_origins=origins,  # Allows Next.js to connect
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
