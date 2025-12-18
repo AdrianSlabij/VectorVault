@@ -31,9 +31,8 @@ export default function Home() {
       </header>
 
       <main className="flex-1">
-        {/* --- Hero Section --- */}
+        {/* --- Main Section --- */}
         <section className="py-24 md:py-32 px-6 text-center max-w-4xl mx-auto space-y-8">
-
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
             {" "}
             <span className="text-4xl md:text-6xl tracking-tight font-normal">
@@ -58,14 +57,14 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Link href="/sign-in">
               <Button size="lg" className="h-12 px-8 text-base">
-                Start Building Free
+                Start Building
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
           </div>
         </section>
 
-        {/* --- Features / Explanation Grid --- */}
+        {/* --- Features/Explanation Grid --- */}
         <section className="py-20 px-6 bg-zinc-100/50 dark:bg-zinc-900/50 border-y border-zinc-200 dark:border-zinc-800">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16 space-y-2">
@@ -77,29 +76,28 @@ export default function Home() {
                 question. Standard LLMs rely on static training data, which can
                 be outdated or inaccurate. RAG "retrieves" the most current
                 relevant data and feeds it to the AI. This ensures responses are
-                accurate, up-to-date, and specific to you without
-                the high cost of retraining the model.
+                accurate and specific to you without the cost
+                of retraining the model.
               </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
-              {/* Feature 1: The Retrieval (RAG) */}
+              {/* Secured Storage Card */}
               <Card className="bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800">
                 <CardHeader>
-                  <Zap className="h-10 w-10 text-amber-500 mb-2" />
-                  <CardTitle>Semantic Search</CardTitle>
+                  <Shield className="h-10 w-10 text-green-500 mb-2" />
+                  <CardTitle>Secured Storage</CardTitle>
                   <CardDescription>
-                    Your documents are turned into{" "}
+                    Your knowledge base is stored securely in our{" "}
                     <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                      Vector Embeddings,
-                    </span>{" "}
-                    to understand the <i>meaning</i> behind your questions and
-                    find the exact page you need.
+                      database
+                    </span>
+                    , and only you can access your private data.
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              {/* Feature 2: The Intelligence (LLM) */}
+              {/* Powered by Gemini Card */}
               <Card className="bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800">
                 <CardHeader>
                   <div className="h-10 w-10 text-blue-500 mb-2">
@@ -129,18 +127,18 @@ export default function Home() {
                   </CardDescription>
                 </CardHeader>
               </Card>
-
-              {/* Feature 3: The Storage (DB) */}
+              {/* Semantic Search Card */}
               <Card className="bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800">
                 <CardHeader>
-                  <Shield className="h-10 w-10 text-green-500 mb-2" />
-                  <CardTitle>Secured Storage</CardTitle>
+                  <Zap className="h-10 w-10 text-amber-500 mb-2" />
+                  <CardTitle>Semantic Search</CardTitle>
                   <CardDescription>
-                    Your knowledge base is stored securely in our{" "}
+                    Your documents are turned into{" "}
                     <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                      database
-                    </span>
-                    , and only you can access your private data.
+                      Vector Embeddings,
+                    </span>{" "}
+                    to understand the <i>meaning</i> behind your questions and
+                    find the exact page you need.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -159,7 +157,7 @@ export default function Home() {
             </p>
             <Link href="/sign-in">
               <Button size="lg" className="mt-4">
-                Start Building Free
+                Start Building For Free
               </Button>
             </Link>
             <p className="text-xs text-zinc-500 pt-4">
