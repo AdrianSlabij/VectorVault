@@ -79,6 +79,8 @@ next-env.d.ts
 # =======================================================
 # MISC
 # =======================================================
-# Uploaded files (If you are saving uploads locally)
-uploads/
-server/uploads/
+# Uploaded files
+# Ignore everything in uploads
+uploads/*
+# But do not ignore the .gitkeep file
+!uploads/.gitkeep
