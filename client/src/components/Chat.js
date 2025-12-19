@@ -148,7 +148,7 @@ export default function Chat({ token }) {
                 </h3>
                 <p className="text-sm text-slate-500 mb-6">
                   I can't answer questions yet because there are no documents.
-                  Please upload a PDF or TXT file to get started.
+                  Please upload a PDF, TXT, or DOCX file to get started.
                 </p>
               </div>
             </div>
