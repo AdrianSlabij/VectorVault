@@ -174,7 +174,7 @@ export default function FileForm({ token }) {
           Knowledge Base
         </CardTitle>
         <CardDescription>
-          Upload <strong>selectable text PDFs</strong> or <strong>TXT</strong> files to expand
+          Upload selectable text<strong> PDF</strong>, <strong>TXT</strong>, and <strong>DOCX</strong> files to expand
           your AI's context window.
           <br />
           <span className="text-xs text-muted-foreground/70">
@@ -212,7 +212,7 @@ export default function FileForm({ token }) {
               className="hidden"
               onChange={handleFileInputChange}
               disabled={uploading}
-              accept=".pdf,.txt"
+              accept=".pdf,.txt,.docx"
             />
 
             <div className="bg-primary/10 p-3 rounded-full mb-2">
@@ -226,7 +226,7 @@ export default function FileForm({ token }) {
                   : "Click to browse or drag files here"}
               </p>
               <p className="text-xs text-muted-foreground">
-                Supported formats: PDF, TXT
+                Supported formats: PDF, TXT, DOCX
               </p>
             </div>
           </div>

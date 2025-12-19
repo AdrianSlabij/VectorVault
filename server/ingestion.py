@@ -1,5 +1,5 @@
 import os
-from langchain_community.document_loaders import PyMuPDFLoader, TextLoader
+from langchain_community.document_loaders import PyMuPDFLoader, TextLoader, Docx2txtLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from norm_embeddings import NormalizedGoogleEmbeddings
 from supabase import create_client, Client
@@ -54,6 +54,8 @@ def process_and_index_file(file_path: str, user_id: str):
             loader = PyMuPDFLoader(file_path)
         elif file_path.endswith(".txt") or file_path.endswith(".md"):
             loader = TextLoader(file_path, encoding="utf-8")
+        elif file_path.endswith(".docx"):
+            loader = Docx2txtLoader(file_path)
         else:
             raise ValueError(f"Unsupported file type: {file_path}")
             
