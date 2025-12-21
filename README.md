@@ -8,7 +8,7 @@
 
 Built to bridge the gap between static documents and dynamic intelligence, this project leverages a high-performance Python backend for vector processing and a responsive Next.js frontend for a seamless user experience.
 
-<img src="https://github.com/user-attachments/assets/eb2c31f5-aa83-4204-9dee-9159b3bec730" alt="Vector Vault Dashboard" width="100%">
+<img src="https://github.com/user-attachments/assets/a084d8ea-98c8-49cb-b42b-c2d37dfcc69e" alt="Vector Vault Dashboard" width="100%">
 
 ## Key Features
 
@@ -32,6 +32,7 @@ Built to bridge the gap between static documents and dynamic intelligence, this 
 ### Infrastructure & Deployment
 * **Frontend:** Deployed on **Vercel**
 * **Backend:** Containerized service hosted on **Render**
+
 
 
 
