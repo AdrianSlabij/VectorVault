@@ -1,18 +1,17 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Database, Shield, Zap, ArrowRight, Lock } from "lucide-react";
+  Database,
+  Zap,
+  ArrowRight,
+  Upload,
+  MessageSquare,
+} from "lucide-react";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-50">
-      {/* --- Navigation --- */}
+      {/* Nav Header */}
       <header className="px-6 h-16 flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 bg-white/50 dark:bg-black/50 backdrop-blur-md sticky top-0 z-50">
         <div className="flex items-center gap-2 font-bold text-xl">
           <div className="h-8 w-8 bg-black dark:bg-white rounded-lg flex items-center justify-center">
@@ -31,7 +30,7 @@ export default function Home() {
       </header>
 
       <main className="flex-1">
-        {/* --- Main Section --- */}
+        {/* Main section*/}
         <section className="py-24 md:py-32 px-6 text-center max-w-4xl mx-auto space-y-8">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
             {" "}
@@ -43,13 +42,11 @@ export default function Home() {
               into
             </span>{" "}
             <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400">
-              Intelligent Conversations
-            </span>
+            <span>Intelligent Conversations</span>
           </h1>
 
           <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Upload your PDFs, text files, and data, and instantly get a custom
+            Upload your PDF, TXT, or DOCX files and instantly get a custom
             AI chatbot that knows every detail. Build, manage, and chat with
             your own private knowledge base in seconds.
           </p>
@@ -64,111 +61,100 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- Features/Explanation Grid --- */}
-        <section className="py-20 px-6 bg-zinc-100/50 dark:bg-zinc-900/50 border-y border-zinc-200 dark:border-zinc-800">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16 space-y-2">
-              <h2 className="text-3xl font-bold">How It Works</h2>
-              <p className="text-zinc-500 dark:text-zinc-400">
-                Powered by Retrieval-Augmented Generation (RAG), a technique
-                that improves Large Language Models (LLMs) by allowing them to
-                consult an external, trusted knowledge base before answering a
-                question. Standard LLMs rely on static training data, which can
-                be outdated or inaccurate. RAG "retrieves" the most current
-                relevant data and feeds it to the AI. This ensures responses are
-                accurate and specific to you without the cost
-                of retraining the model.
-              </p>
-            </div>
+        {/* Explanatin Section*/}
+        <section className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
+          <div className="max-w-5xl mx-auto px-6 py-24">
+            <div className="grid md:grid-cols-2 gap-12 md:gap-24">
+              {/* How it works section*/}
+              <div className="space-y-6 md:sticky md:top-32 h-fit">
+                <h2 className="text-3xl font-bold tracking-tight">
+                  How It Works
+                </h2>
+                <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  We use{" "}
+                  <span className="text-zinc-900 dark:text-zinc-100 font-medium">
+                    Retrieval-Augmented Generation (RAG)
+                  </span>
+                  . RAG helps Large Language Models (LLMs) to search through the
+                  files it has access to, and generate accurate and cited
+                  answers. This ensures responses are accurate and specific to
+                  you without the cost of retraining an LLM.
+                </p>
+                <div className="pt-4">
+                  <Link
+                    href="https://aws.amazon.com/what-is/retrieval-augmented-generation/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button variant="outline">Learn more about RAG</Button>
+                  </Link>
+                </div>
+              </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Secured Storage Card */}
-              <Card className="bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800">
-                <CardHeader>
-                  <Shield className="h-10 w-10 text-green-500 mb-2" />
-                  <CardTitle>Secured Storage</CardTitle>
-                  <CardDescription>
-                    Your knowledge base is stored securely in our{" "}
-                    <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                      database
-                    </span>
-                    , and only you can access your private data.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              {/* Powered by Gemini Card */}
-              <Card className="bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800">
-                <CardHeader>
-                  <div className="h-10 w-10 text-blue-500 mb-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-10 w-10"
-                    >
-                      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-                      <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
-                      <path d="M19 11h2m-1 -1v2" />
-                    </svg>
+              {/* 3 Steps section */}
+              <div className="space-y-12">
+                {/* Step 1- Ingest+Secure */}
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="h-10 w-10 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center">
+                      <Upload className="h-5 w-5 text-zinc-900 dark:text-zinc-100" />
+                    </div>
                   </div>
-                  <CardTitle>Powered by Gemini</CardTitle>
-                  <CardDescription>
-                    Built on Google's{" "}
-                    <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                      Gemini 2.5 Flash
-                    </span>{" "}
-                    Text Model. It reads the retrieved context and generates
-                    natural, human-like answers cited directly from your files.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-              {/* Semantic Search Card */}
-              <Card className="bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800">
-                <CardHeader>
-                  <Zap className="h-10 w-10 text-amber-500 mb-2" />
-                  <CardTitle>Semantic Search</CardTitle>
-                  <CardDescription>
-                    Your documents are turned into{" "}
-                    <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                      Vector Embeddings,
-                    </span>{" "}
-                    to understand the <i>meaning</i> behind your questions and
-                    find the exact page you need.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </div>
-          </div>
-        </section>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">
+                      1. Ingest & Secure
+                    </h3>
+                    <p className="text-zinc-600 dark:text-zinc-400">
+                      Upload your documents. We store them in a
+                      secluded database that only you can access.
+                    </p>
+                  </div>
+                </div>
 
-        {/* --- Bottom CTA --- */}
-        <section className="py-24 px-6 text-center">
-          <div className="max-w-3xl mx-auto space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">
-              Ready to chat with your data?
-            </h2>
-            <p className="text-zinc-600 dark:text-zinc-400">
-              Upload your first PDF and start asking questions in seconds.
-            </p>
-            <Link href="/sign-in">
-              <Button size="lg" className="mt-4">
-                Start Building For Free
-              </Button>
-            </Link>
-            <p className="text-xs text-zinc-500 pt-4">
-              No credit card required.
-            </p>
+                {/* Step 2  - Vectorize*/}
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="h-10 w-10 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center">
+                      <Zap className="h-5 w-5 text-zinc-900 dark:text-zinc-100" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">2. Vectorize</h3>
+                    <p className="text-zinc-600 dark:text-zinc-400">
+                      We convert your text into{" "}
+                      <strong>Vector Embeddings</strong>. This allows the system
+                      to understand the <em>semantic meaning</em> behind your
+                      data, not just keyword matching.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 3 - Chat */}
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="h-10 w-10 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center">
+                      <MessageSquare className="h-5 w-5 text-zinc-900 dark:text-zinc-100" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">
+                      3. Chat with Context
+                    </h3>
+                    <p className="text-zinc-600 dark:text-zinc-400">
+                      Powered by <strong>Gemini 2.5 Flash</strong>. When you ask
+                      a question, we retrieve the exact page needed and the AI
+                      summarizes the answer for you.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>
 
-      {/* --- Footer --- */}
-      <footer className="py-8 border-t border-zinc-200 dark:border-zinc-800 text-center text-sm text-zinc-500">
+      {/* footer*/}
+      <footer className="py-8 border-t border-zinc-200 dark:border-zinc-800 text-center text-sm text-zinc-500 bg-white dark:bg-zinc-950">
         <p>
           &copy; {new Date().getFullYear()} Vector Vault Inc. All rights
           reserved.
