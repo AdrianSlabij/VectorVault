@@ -339,7 +339,10 @@ export default function FileForm({ token }) {
               {loadingFiles ? (
                 <div className="flex flex-col items-center justify-center h-40 text-muted-foreground gap-2">
                   <Loader2 className="h-6 w-6 animate-spin" />
-                  <span className="text-xs">Loading library...</span>
+                  <span>Loading library...</span>
+                  <p className="mt-4 text-sm text-muted-foreground animate-pulse">
+        Spinning up server, this may take several seconds...
+      </p>
                 </div>
               ) : uploadedFiles.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-40 text-muted-foreground gap-2">
