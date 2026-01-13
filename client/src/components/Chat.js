@@ -118,7 +118,7 @@ export default function Chat({ token }) {
     return (
       <Card className="flex flex-col h-[80vh] border shadow-sm items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-        <p className="mt-4 text-sm text-muted-foreground animate-pulse">
+        <p className="mt-4 text-xs text-muted-foreground animate-pulse">
         Spinning up server, this may take several seconds...
       </p>
       </Card>
